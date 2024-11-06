@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Notas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .aprovado {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .reprovado {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .recuperacao {
+            background-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .aviso-recuperacao {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Sistema de Notas</h1>
+        <div class="form-group">
+            <label for="nome">Nome do Aluno:</label>
+            <input type="text" id="nome" required>
+        </div>
+        <div class="form-group">
+            <label for="nota1">Nota 1:</label>
+            <input type="number" id="nota1" step="0.1" required>
+        </div>
+        <div class="form-group">
+            <label for="nota2">Nota 2:</label>
+            <input type="number" id="nota2" step="0.1" required>
+        </div>
+        <div class="form-group">
+            <label for="nota3">Nota 3:</label>
+            <input type="number" id="nota3" step="0.1" required>
+        </div>
+        <div class="form-group">
+            <label for="nota4">Nota 4:</label>
+            <input type="number" id="nota4" step="0.1" required>
+        </div>
+        <button onclick="verificarNotas()">Verificar</button>
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <script>
+        function verificarNotas() {
+            // Obter os valores das notas e o nome do aluno
+            const nome = document.getElementById('nome').value.trim();
+            const nota1 = parseFloat(document.getElementById('nota1').value);
+            const nota2 = parseFloat(document.getElementById('nota2').value);
+            const nota3 = parseFloat(document.getElementById('nota3').value);
+            const nota4 = parseFloat(document.getElementById('nota4').value);
+
+            // Verificar se todas as notas são válidas
+            if (nome === '' || isNaN(nota1) || isNaN(nota2) || isNaN(nota3) || isNaN(nota4)) {
+                document.getElementById('resultado').innerHTML = 'Por favor, insira todas as informações corretamente.';
+                return;
+            }
+
+            // Calcular a soma das notas e a média
+            const somaNotas = nota1 + nota2 + nota3 + nota4;
+            const media = somaNotas / 4;
+
+            // Determinar o status do aluno
+            let status;
+            if (media > 5) {
+                status = 'Aprovado';
+            } else if (somaNotas < 5) {
+                status = 'Recuperação';
+            } else if (media === 4) {
+                status = 'Reprovado';
+            } else {
+                status = 'Recuperação'; // Default case if not matching other conditions
+            }
+
+            // Criar a tabela com o boletim
+            let tabela = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nota 1</th>
+                            <th>Nota 2</th>
+                            <th>Nota 3</th>
+                            <th>Nota 4</th>
+                            <th>Média</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${nota1.toFixed(1)}</td>
+                            <td>${nota2.toFixed(1)}</td>
+                            <td>${nota3.toFixed(1)}</td>
+                            <td>${nota4.toFixed(1)}</td>
+                            <td>${media.toFixed(1)}</td>
+                            <td class="${status.toLowerCase()}">${status}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            // Adicionar a mensagem de aviso para alunos em recuperação
+            let aviso = '';
+            if (status === 'Recuperação') {
+                aviso = `
+                    <div class="aviso-recuperacao">
+                        <p><strong>Aviso Importante para Aluno em Recuperação</strong></p>
+                        <p>Caro(a) ${nome},</p>
+                        <p>Espero que este aviso encontre você bem. Gostaria de informá-lo(a) sobre a tarefa de recuperação que deve ser realizada para a conclusão do seu semestre.</p>
+                        <p><strong>Tema do Trabalho:</strong></p>
+                        <p>Você deverá desenvolver um trabalho sobre um tema de sua escolha, que deve ser relevante e mostrar um entendimento aprofundado do assunto selecionado. A escolha do tema é livre, mas deve ser aprovada por mim para garantir que seja adequado e tenha um escopo que permita uma análise completa.</p>
+                    </div>
+                `;
+            }
+
+            // Exibir o resultado
+            document.getElementById('resultado').innerHTML = tabela + aviso;
+        }
+    </script>
+</body>
+
+</html>

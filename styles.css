@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    /* Garante que o label ocupe uma linha inteira */
+    margin: 5px 0;
+    /* Espaçamento vertical ao redor do label */
+    text-align: left;
+    /* Alinha o texto do label à esquerda */
+}
+
+input {
+    display: block;
+    /* Garante que o input ocupe uma linha inteira */
+    margin: 5px 0;
+    /* Espaçamento vertical ao redor do input */
+    padding: 5px;
+    width: 100px;
+    /* Ajuste a largura conforme necessário */
+}
+
+button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#resultado {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.boletim {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.boletim table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.boletim th,
+.boletim td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+}
+
+.boletim th {
+    background-color: #f2f2f2;
+}
